@@ -122,3 +122,127 @@ Add this line to all `_Imports.razor` files:
 
 Open `Volo.Abp.AspNetCore.Components.Web.BasicTheme/Themes/Basic/` folder.
 
+Replace `Branding.razor` file's content with the following code:
+
+```razor
+@using Volo.Abp.Ui.Branding
+@inject IBrandingProvider BrandingProvider
+
+<MudText Typo="Typo.h5" Class="ml-3">
+    @BrandingProvider.AppName
+</MudText>
+```
+
+Replace `FirstLevelNavMenuItem.razor` file's content with the following code:
+
+```razor
+@using Volo.Abp.UI.Navigation
+
+@{
+    var elementId = MenuItem.ElementId ?? "MenuItem_" + MenuItem.Name.Replace(".", "_");
+    var cssClass = string.IsNullOrEmpty(MenuItem.CssClass) ? string.Empty : MenuItem.CssClass;
+    var disabled = MenuItem.IsDisabled ? "disabled" : string.Empty;
+    var url = MenuItem.Url == null ? "#" : MenuItem.Url.TrimStart('/', '~');
+}
+
+@if (MenuItem.IsLeaf)
+{
+    if (MenuItem.Url is not null)
+    {
+        <MudNavLink Icon="@MenuItem.Icon" Href="@url" Target="@MenuItem.Target" Match="NavLinkMatch.All">
+            @MenuItem.DisplayName
+        </MudNavLink>
+    }
+}
+else
+{
+    <MudNavGroup Icon="@MenuItem.Icon" Title="@MenuItem.DisplayName">
+        @foreach (var childMenuItem in MenuItem.Items.OrderBy(i => i.Order))
+        {
+            <SecondLevelNavMenuItem MenuItem="@childMenuItem"/>
+        }
+    </MudNavGroup>
+}
+```
+
+Replace `SecondLevelNavMenuItem.razor` file's content with the following code:
+
+```razor
+@using Volo.Abp.UI.Navigation
+
+@{
+    var elementId = MenuItem.ElementId ?? "MenuItem_" + MenuItem.Name.Replace(".", "_");
+    var cssClass = string.IsNullOrEmpty(MenuItem.CssClass) ? string.Empty : MenuItem.CssClass;
+    var disabled = MenuItem.IsDisabled ? "disabled" : string.Empty;
+    var url = MenuItem.Url == null ? "#" : MenuItem.Url.TrimStart('/', '~');
+}
+
+@if (MenuItem.IsLeaf)
+{
+    if (MenuItem.Url is not null)
+    {
+        <MudNavLink Icon="@MenuItem.Icon" Href="@url" Target="@MenuItem.Target">
+            @MenuItem.DisplayName
+        </MudNavLink>
+    }
+}
+else
+{
+    <MudNavGroup Icon="@MenuItem.Icon" Title="@MenuItem.DisplayName">
+        @foreach (var childMenuItem in MenuItem.Items.OrderBy(i => i.Order))
+        {
+            <SecondLevelNavMenuItem MenuItem="@childMenuItem"/>
+        }
+    </MudNavGroup>
+}
+```
+
+Replace `NavToolbar.razor` file's content with the following code:
+
+```razor
+@foreach (var render in ToolbarItemRenders)
+{
+    @render
+}
+```
+
+Replace `MainLayout.razor` file's content with the following code:
+
+```razor
+@inherits LayoutComponentBase
+
+<MudThemeProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="8">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <Branding />
+        <MudSpacer />
+        <NavToolbar />
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="8">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.False" Class="mt-4">
+            <PageAlert />
+            @Body
+            <UiMessageAlert />
+            <UiNotificationAlert />
+            <UiPageProgress />
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+@code 
+{
+    private bool _drawerOpen = true;
+
+    private void DrawerToggle()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}
+```
