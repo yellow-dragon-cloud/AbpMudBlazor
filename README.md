@@ -46,4 +46,30 @@ To add downloaded projects to source control, open `.gitignore` and add this lin
 
 ## 3. Add MudBlazor
 
+Navigate to downloaded `Volo.Abp.AspNetCore.Components.Web.BasicTheme` project directory and install MudBlazor:
 
+```bash
+dotnet add package MudBlazor
+```
+
+In `Volo.Abp.AspNetCore.Components.Web.BasicTheme` project, open `AbpAspNetCoreComponentsWebBasicThemeModule.cs` file, and replace its content with the following code:
+
+```csharp
+using MudBlazor.Services;
+using Volo.Abp.AspNetCore.Components.Web.Theming;
+using Volo.Abp.Modularity;
+
+namespace Volo.Abp.AspNetCore.Components.Web.BasicTheme;
+
+[DependsOn(
+    typeof(AbpAspNetCoreComponentsWebThemingModule)
+)]
+public class AbpAspNetCoreComponentsWebBasicThemeModule : AbpModule
+{
+    public override void ConfigureServices(ServiceConfigurationContext context)
+    {
+        base.ConfigureServices(context);
+        context.Services.AddMudServices();
+    }
+}
+```
