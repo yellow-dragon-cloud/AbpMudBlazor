@@ -73,3 +73,41 @@ public class AbpAspNetCoreComponentsWebBasicThemeModule : AbpModule
     }
 }
 ```
+
+And in `Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme` project, open `BasicThemeBundleContributor.cs` file, and replace its content with the following code:
+
+```csharp
+using Volo.Abp.Bundling;
+
+namespace Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme;
+
+public class BasicThemeBundleContributor : IBundleContributor
+{
+    public void AddScripts(BundleContext context)
+    {
+        context.Add("_content/MudBlazor/MudBlazor.min.js");
+    }
+
+    public void AddStyles(BundleContext context)
+    {
+        context.Add("_content/Volo.Abp.AspNetCore.Components.Web.BasicTheme/libs/abp/css/theme.css");
+
+        context.Add("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
+        context.Add("_content/MudBlazor/MudBlazor.min.css");
+    }
+}
+```
+
+Add the following to your HTML head section of `index.html` file in `Acme.BookStore.Blazor` project:
+
+```html
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+<link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+```
+
+In the same file but located in the end of it add the MudBlazor js file, it should be in the same location as the default blazor script:
+
+```html
+<script src="_content/MudBlazor/MudBlazor.min.js"></script>
+```
+
