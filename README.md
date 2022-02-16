@@ -364,7 +364,7 @@ Replace `LoginDisplay.razor` file's content with the following code:
 
 ## The Result
 
-![image](https://user-images.githubusercontent.com/74877486/154301979-ab370d5c-888a-4853-9bdd-9fb6c09e134d.png)
+![image](images/screenshot.png)
 
 
 ## Next Steps
