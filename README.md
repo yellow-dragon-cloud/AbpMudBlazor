@@ -365,3 +365,10 @@ Replace `LoginDisplay.razor` file's content with the following code:
 ## The Result
 
 ![image](https://user-images.githubusercontent.com/74877486/154301979-ab370d5c-888a-4853-9bdd-9fb6c09e134d.png)
+
+
+## Next Steps
+
+- Use MudBlazor [Dialogs](https://www.mudblazor.com/components/dialog#usage) and [Notifications](https://www.mudblazor.com/components/snackbar#api) (COMMING SOON)
+- Use MudBlazor components in ABP Blazor application UI (COMMING SOON)
+
