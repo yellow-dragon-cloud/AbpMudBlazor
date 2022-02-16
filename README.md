@@ -111,7 +111,7 @@ In the same file but located in the end of it add the MudBlazor js file, it shou
 <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 ```
 
-Add this line to all `_Imports.razor` files:
+Add this line to `Volo.Abp.AspNetCore.Components.Web.BasicTheme/Themes/Basic/_Imports.razor` and `Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme/Themes/Basic/_Imports.razor` files:
 
 ```razor
 @using MudBlazor
