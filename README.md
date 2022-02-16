@@ -37,7 +37,7 @@ Then, navigate to downloaded `Volo.Abp.AspNetCore.Components.WebAssembly.BasicTh
 abp add-package Volo.Abp.AspNetCore.Components.Web.BasicTheme --with-source-code --add-to-solution-file
 ```
 
-To add downloaded projects to source control, open `.gitignore` and add this line:
+To add downloaded projects to source control, open `.gitignore` file and add this line:
 
 ```gitignore
 !**/packages/*Theme*
@@ -110,4 +110,15 @@ In the same file but located in the end of it add the MudBlazor js file, it shou
 ```html
 <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 ```
+
+Add this line to all `_Imports.razor` files:
+
+```razor
+@using MudBlazor
+```
+
+
+## 4. Customize Basic Theme
+
+Open `Volo.Abp.AspNetCore.Components.Web.BasicTheme/Themes/Basic/` folder.
 
