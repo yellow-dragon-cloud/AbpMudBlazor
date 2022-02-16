@@ -246,3 +246,119 @@ Replace `MainLayout.razor` file's content with the following code:
     }
 }
 ```
+
+You can use a different layout. See other [main layout options](https://www.mudblazor.com/getting-started/wireframes#main-layouts).
+
+Now open `Volo.Abp.AspNetCore.Components.WebAssembly.BasicTheme/Themes/Basic/` folder.
+
+Replace `LanguageSwitch.razor` file's content with the following code:
+
+```razor
+@using Volo.Abp.Localization
+@using System.Globalization
+@using System.Collections.Immutable
+@inject ILanguageProvider LanguageProvider
+@inject IJSRuntime JsRuntime
+
+@if (_otherLanguages is not null && _otherLanguages.Any())
+{
+    <MudMenu Color="MudBlazor.Color.Inherit" Direction="MudBlazor.Direction.Left" OffsetX="true" Dense="true">
+        <ActivatorContent>
+            <MudChip Color="MudBlazor.Color.Primary">
+                @_currentLanguage.DisplayName
+            </MudChip>
+        </ActivatorContent>
+        <ChildContent>
+            @foreach (var language in _otherLanguages)
+            {
+                <MudMenuItem OnClick="@(async () => await ChangeLanguageAsync(language))">
+                    @language.DisplayName
+                </MudMenuItem>
+            }
+        </ChildContent>
+    </MudMenu>
+}
+
+@code {
+    private IReadOnlyList<LanguageInfo> _otherLanguages;
+    private LanguageInfo _currentLanguage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var selectedLanguageName = await JsRuntime.InvokeAsync<string>(
+            "localStorage.getItem",
+            "Abp.SelectedLanguage");
+
+        _otherLanguages = await LanguageProvider.GetLanguagesAsync();
+
+        if (!_otherLanguages.Any()) return;
+
+        if (!selectedLanguageName.IsNullOrWhiteSpace())
+            _currentLanguage = _otherLanguages.FirstOrDefault(l => l.UiCultureName == selectedLanguageName);
+
+        _currentLanguage ??= _otherLanguages.FirstOrDefault(l => l.UiCultureName == CultureInfo.CurrentUICulture.Name);
+        _currentLanguage ??= _otherLanguages.FirstOrDefault();
+
+        _otherLanguages = _otherLanguages.Where(l => l != _currentLanguage).ToImmutableList();
+    }
+
+    private async Task ChangeLanguageAsync(LanguageInfo language)
+    {
+        await JsRuntime.InvokeVoidAsync(
+            "localStorage.setItem",
+            "Abp.SelectedLanguage", language.UiCultureName);
+
+        await JsRuntime.InvokeVoidAsync("location.reload");
+    }
+}
+```
+
+Replace `LoginDisplay.razor` file's content with the following code:
+
+```razor
+@using Microsoft.Extensions.Localization
+@using Volo.Abp.Users
+@using Volo.Abp.MultiTenancy
+@using global::Localization.Resources.AbpUi
+@inherits AbpComponentBase
+@inject ICurrentUser CurrentUser
+@inject ICurrentTenant CurrentTenant
+@inject IJSRuntime JsRuntime
+@inject NavigationManager Navigation
+@inject IStringLocalizer<AbpUiResource> UiLocalizer
+
+<AuthorizeView>
+    <Authorized>
+        <MudMenu Color="MudBlazor.Color.Inherit" Direction="MudBlazor.Direction.Left" OffsetX="true" Dense="true">
+            <ActivatorContent>
+                <MudChip Color="MudBlazor.Color.Primary">
+                    @CurrentUser.Name
+                </MudChip>
+            </ActivatorContent>
+            <ChildContent>
+                @if (Menu is not null && Menu.Items.Any())
+                {
+                    @foreach (var menuItem in Menu.Items)
+                    {
+                        <MudListItem OnClick="@(async () => await NavigateToAsync(menuItem.Url, menuItem.Target))">
+                            @menuItem.DisplayName
+                        </MudListItem>
+                    }
+                    <MudDivider />
+                }
+                <MudListItem Icon="@Icons.Material.Outlined.Login" OnClick="BeginSignOut">
+                    @UiLocalizer["Logout"]
+                </MudListItem>
+            </ChildContent>
+        </MudMenu>
+    </Authorized>
+    <NotAuthorized>
+        <MudLink Color="MudBlazor.Color.Inherit" Href="authentication/login">
+            <MudChip Color="MudBlazor.Color.Primary">
+                @UiLocalizer["Login"]
+            </MudChip>
+        </MudLink>
+    </NotAuthorized>
+</AuthorizeView>
+```
+
