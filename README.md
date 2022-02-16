@@ -217,7 +217,8 @@ Replace `MainLayout.razor` file's content with the following code:
 
 <MudLayout>
     <MudAppBar Elevation="8">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="MudBlazor.Color.Inherit" Edge="Edge.Start" 
+                       OnClick="@((e) => DrawerToggle())" />
         <Branding />
         <MudSpacer />
         <NavToolbar />
