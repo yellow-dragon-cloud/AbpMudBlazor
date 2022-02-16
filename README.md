@@ -44,4 +44,6 @@ To add downloaded projects to source control, open `.gitignore` and add this lin
 ```
 
 
-## 3. Customize theme
+## 3. Add MudBlazor
+
+
