@@ -212,8 +212,6 @@ Replace `MainLayout.razor` file's content with the following code:
 @inherits LayoutComponentBase
 
 <MudThemeProvider />
-<MudDialogProvider />
-<MudSnackbarProvider />
 
 <MudLayout>
     <MudAppBar Elevation="8">
