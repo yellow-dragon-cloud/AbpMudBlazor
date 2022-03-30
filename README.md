@@ -1,4 +1,4 @@
-# MudBlazor Theme in ABP Blazor WebAssembly
+# MudBlazor Theme in ABP Blazor WebAssembly PART 1
 
 ## Introduction
 It is quite easy to customize default template and layout of an [ABP](https://abp.io/) Blazor application. This sample demonstrates how you can use MudBlazor layouts in your ABP Blazor WebAssembly applications. The source code is [available on GitHub](https://github.com/yellow-dragon-cloud/AbpMudBlazor)
@@ -367,8 +367,7 @@ Replace `LoginDisplay.razor` file's content with the following code:
 ![image](images/screenshot.png)
 
 
-## Next Steps
+## Next
 
-- Use MudBlazor [Dialogs](https://www.mudblazor.com/components/dialog#usage) and [Notifications](https://www.mudblazor.com/components/snackbar#api) (COMMING SOON)
-- Use MudBlazor components in ABP Blazor application UI (COMMING SOON)
+[MudBlazor Theme in ABP Blazor WebAssembly PART 2](https://github.com/yellow-dragon-cloud/AbpMudBlazor2)
 
